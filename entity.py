@@ -34,6 +34,8 @@ class Creature(Entity):
         self.name = 'Creature'
         self.hp = 10
 
+    def make_move(self, coord):
+        pass
 class Herbivore(Creature):
     def __init__(self):
         super().__init__()
