@@ -1,9 +1,6 @@
 class Entity:
     def __init__(self):
-        self.hp = 100
-    # def __str__(self):
-    #     return f'{self.__class__.__name__}'
-
+        self.hp = ''
 class Rock(Entity):
     def __init__(self):
         self.speed = 0
@@ -14,6 +11,7 @@ class Grass(Entity):
         self.speed = 0
         self.name = 'Grass'
         self.colour = 'green'
+        self.hp = 10
 class Tree(Entity):
     def __init__(self):
         self.speed = 0
@@ -23,17 +21,20 @@ class Creature(Entity):
     def __init__(self):
         self.speed = 0
         self.name = 'Creature'
+        self.hp = 10
 class Herbivore(Creature):
     def __init__(self):
         self.speed = 0
         self.name = 'Herb'
         self.colour = 'yellow'
+        self.hp = 10
 class Predator(Creature):
     def __init__(self):
         self.speed = 0
         self.name = 'Predator'
         self.colour = 'red'
+        self.hp = 10
 class Empty(Entity):
     def __init__(self):
-        self.name = ''
+        self.name = ' '
         self.colour = 'white'
