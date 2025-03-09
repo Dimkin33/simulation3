@@ -7,7 +7,7 @@ class Rock(Entity):
 class Grass(Entity):
     def __init__(self):
         self.speed = 0
-class Rock(Entity):
+class Tree(Entity):
     def __init__(self):
         self.speed = 0
 class Creature(Entity):
