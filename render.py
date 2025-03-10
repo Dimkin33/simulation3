@@ -29,8 +29,8 @@ class Render:
                 entity = self.map[(i, j)]
                 color = getattr(entity, "colour", "white")  # Получаем цвет или белый
                 name = getattr(entity, "name", "")  # Получаем имя или "Empty"
-                hp = getattr(entity, "hp", "")
-                cell = tk.Label(self.frame_grid, text=f"{name[0]}({hp})", borderwidth=1, relief="solid", width=8, height=3, bg = color)
+                coord = getattr(entity, "cell", "")
+                cell = tk.Label(self.frame_grid, text=f"{name[0]}{coord}", borderwidth=1, relief="solid", width=8, height=3, bg = color)
                 cell.grid(row=i, column=j, padx=2, pady=2)
 
     def update_label(self):

@@ -1,15 +1,14 @@
 from entity import Empty
 
-
 class Map:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.map_dict = {(x, y): Empty() for x in range(self.width) for y in range(self.height)}
+        self.map_dict = {(x, y): Empty((x, y)) for x in range(self.width) for y in range(self.height)}
 
-    def add_entity(self, entity_, coord):
-        self.map_dict[coord] = entity_
+    def add_entity(self, entity_):
+        self.map_dict[entity_.cell] = entity_
 
-    def remove_entity(self, x, y):
-        self.map_dict[(x,y)] = Empty()
 
+    def get_entity(self, cell):
+        return self.map_dict[cell]

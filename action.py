@@ -1,6 +1,6 @@
 import random
 
-from entity import Herbivore, Grass, Rock, Predator, Tree, Empty
+from entity import Herbivore, Grass, Rock, Predator, Tree, Creature
 
 
 class Actions:
@@ -16,25 +16,23 @@ class Actions:
             for cell in cells:
                 match entity_:
                     case 'herb':
-                        self.map.add_entity(Herbivore(), cell)
+                        self.map.add_entity(Herbivore(cell))
                     case 'grass':
-                        self.map.add_entity(Grass(), cell)
+                        self.map.add_entity(Grass(cell))
                     case 'rock':
-                        self.map.add_entity(Rock(), cell)
+                        self.map.add_entity(Rock(cell))
                     case 'predator':
-                        self.map.add_entity(Predator(), cell)
+                        self.map.add_entity(Predator(cell))
                     case 'tree':
-                        self.map.add_entity(Tree(), cell)
+                        self.map.add_entity(Tree(cell))
             cells_fill = cells_fill - cells
 
     def turn_actions(self):
-        self.map.add_entity(Empty(), random.choice(list(self.map.map_dict.keys())))
-        herb = []
-        pred = []
-        for cell in self.map.map_dict.values():
-            match cell:
-                case Herbivore():
-                    herb.append(cell)
-                case Predator():
-                    pred.append(cell)
+        #self.map.add_entity(Empty(random.choice(list(self.map.map_dict.keys()))))
+        creatures = []
+        for entity in self.map.map_dict.values():
+            if isinstance(entity, Creature):
+                creatures.append(entity)
+        for creature in creatures:
+            creature.make_move(self.map)
 
