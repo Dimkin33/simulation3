@@ -28,11 +28,19 @@ class Actions:
             cells_fill = cells_fill - cells
 
     def turn_actions(self):
-        #self.map.add_entity(Empty(random.choice(list(self.map.map_dict.keys()))))
-        creatures = []
+        herbivores = []
         for entity in self.map.map_dict.values():
-            if isinstance(entity, Creature):
-                creatures.append(entity)
-        for creature in creatures:
-            creature.make_move(self.map)
+            if isinstance(entity, Herbivore):
+                herbivores.append(entity)
+        for herbivore in herbivores:
+            herbivore.make_move(self.map)
+
+        predators = []
+        for entity in self.map.map_dict.values():
+            if isinstance(entity, Predator):
+                predators.append(entity)
+        for predator in predators:
+            predator.make_move(self.map)
+            predator.make_move(self.map)
+
 
