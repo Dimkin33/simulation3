@@ -8,8 +8,8 @@ class Actions:
         self.entity_dict = simulation_.entity_dict
         self.map = simulation_.map
 
-    def init_actions(self):
 
+    def init_actions(self):
         cells_fill = set(list(self.map.map_dict.keys()))
         for entity_, amount in self.entity_dict.items():
             cells = set(random.sample(list(cells_fill), amount))
@@ -28,17 +28,16 @@ class Actions:
             cells_fill = cells_fill - cells
 
     def turn_actions(self):
-        herbivores = []
+        herbivores, predators = [], []
         for entity in self.map.map_dict.values():
             if isinstance(entity, Herbivore):
                 herbivores.append(entity)
+            elif isinstance(entity, Predator):
+                predators.append(entity)
+
         for herbivore in herbivores:
             herbivore.make_move(self.map)
 
-        predators = []
-        for entity in self.map.map_dict.values():
-            if isinstance(entity, Predator):
-                predators.append(entity)
         for predator in predators:
             predator.make_move(self.map)
             predator.make_move(self.map)

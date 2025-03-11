@@ -75,6 +75,7 @@ class Creature(Entity):
     def move_to(self, game_map, path):
         """Перемещение по найденному пути"""
         if path:
+
             game_map.add_entity(Empty(self.cell))  # Очищаем старую клетку
             self.cell = path[0]  # Двигаемся на первую клетку пути
             game_map.add_entity(self)  # Добавляем себя на новую позицию
@@ -92,19 +93,68 @@ class Creature(Entity):
 class Herbivore(Creature):
     def __init__(self, cell):
         super().__init__(cell)
-        self.speed = 1  # Например, двигается быстрее
+        self.speed = 1  # Медленнее хищника
         self.name = 'Herb'
         self.colour = 'yellow'
-        self.hp = 10
+        self.hp = 10  # Начальное здоровье
+
+    def make_move(self, game_map):
+        """Ест траву, если она рядом, иначе двигается к ней"""
+        # Проверяем, есть ли трава рядом
+        neighbors = [(self.cell[0] + dx, self.cell[1] + dy) for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]]
+        for neighbor in neighbors:
+            if isinstance(game_map.map_dict.get(neighbor), Grass):
+                self.eat_grass(game_map, neighbor)
+                return  # Если поели, ход завершается
+
+        # Если травы рядом нет, двигаемся к ближайшей
+        path = self.bfs(game_map, Grass)
+        if path:
+            self.move_to(game_map, path)
+
+    def eat_grass(self, game_map, target_cell):
+        """Травоядное съедает траву и восстанавливает здоровье"""
+        grass = game_map.map_dict[target_cell]
+        if isinstance(grass, Grass):
+            print(f"{self.name} съедает {grass.name} и восстанавливает {grass.hp} HP!")
+            self.hp += grass.hp  # Восстанавливаем здоровье
+            game_map.add_entity(Empty(target_cell))  # Убираем траву с карты
+
 
 
 class Predator(Creature):
     def __init__(self, cell):
         super().__init__(cell)
-        self.speed = 2  # Например, быстрее, чем Herbivore
+        self.speed = 2  # Хищник быстрее травоядного
         self.name = 'Predator'
         self.colour = 'red'
         self.hp = 10
+        self.attack_power = 2  # Сила атаки
+
+    def make_move(self, game_map):
+        """Атакует травоядное или двигается к нему"""
+        # Проверяем, есть ли рядом жертва
+        neighbors = [(self.cell[0] + dx, self.cell[1] + dy) for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]]
+        for neighbor in neighbors:
+            if isinstance(game_map.map_dict.get(neighbor), Herbivore):
+                self.attack(game_map, neighbor)
+                return  # Если атаковали, ход завершается
+
+        # Если жертвы рядом нет, двигаемся к ближайшей
+        path = self.bfs(game_map, Herbivore)
+        if path:
+            self.move_to(game_map, path)
+
+    def attack(self, game_map, target_cell):
+        """Атакует травоядное"""
+        target = game_map.map_dict[target_cell]
+        if isinstance(target, Herbivore):
+            print(f"{self.name} атакует {target.name} на {self.attack_power} урона!")
+            target.hp -= self.attack_power
+            if target.hp <= 0:
+                print(f"{target.name} погибает!")
+                game_map.add_entity(Empty(target_cell))  # Убираем жертву с карты
+
 
 
 

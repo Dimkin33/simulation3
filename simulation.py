@@ -8,10 +8,11 @@ class Simulation:
         self.width, self.height = width, height
         self.entity_dict = entity_
         self.map = Map(width, height)
-
+        self.history = []
         self.action = Actions(self)
         self.action.init_actions()
         self.render = Render(self)
+
 
 
 
