@@ -1,6 +1,7 @@
 import tkinter as tk
 import copy
 from collections import Counter
+from time import sleep
 
 from entity import Empty
 
@@ -23,9 +24,14 @@ class Render:
         self.button_prev = tk.Button(self.frame_button, text="Previous", command=self.on_button_prev_click)
         self.button_next = tk.Button(self.frame_button, text="Next", command=self.on_button_next_click)
         self.button_exit = tk.Button(self.frame_button, text="Exit", command=self.root.destroy)
+        self.button_restart = tk.Button(self.frame_button, text="Restart", command=self.restart_simulation)
+        self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.on_button_auto_click)
+
         self.button_prev.pack(side="left", padx=10)
         self.button_next.pack(side="left", padx=10)
         self.button_exit.pack(side = 'right', padx = 10)
+        self.button_restart.pack(side='right', padx=10)
+        self.button_auto.pack(side="right", padx=10)
 
         # Кадр для сетки
         self.frame_grid = tk.Frame(self.root)
@@ -33,6 +39,12 @@ class Render:
 
         self.display_grid()
         self.update_label()
+
+    def restart_simulation(self):
+        self.simulation.count_simulation = 0
+        self.simulation.history.clear()
+        self.action.init_actions()  # Пересоздаём сущности
+        self.display_grid()  # Обновляем интерфейс
 
     def display_grid(self):
         """Отображение сетки"""
@@ -69,6 +81,9 @@ class Render:
     def on_button_prev_click(self):
         """Откат к предыдущему шагу"""
         print('button prev')
+        self.simulation.count_simulation -= 1
+        if  self.simulation.count_simulation > 0:
+            print(f' Simation_ step {self.simulation.count_simulation}')
         if self.history:
             previous_map = self.history.pop()  # Получаем предыдущее состояние
             self.map.map_dict = copy.deepcopy(previous_map.map_dict)  # Обновляем содержимое карты
@@ -82,11 +97,17 @@ class Render:
     def on_button_next_click(self):
         """Переход к следующему шагу"""
         print('Button next')
+        self.simulation.count_simulation += 1
+        print(f' Simation_ step {self.simulation.count_simulation}')
         self.history.append(copy.deepcopy(self.map))  # Сохраняем копию карты
         self.action.turn_actions()
         #self.root.update()
         self.display_grid()
 
-
+    def on_button_auto_click(self):
+        while self.map.count_all_health():
+            self.on_button_next_click()
+            self.root.update()
+        print('Все померли')
     def render(self):
         self.root.mainloop()

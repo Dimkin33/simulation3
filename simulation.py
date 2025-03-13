@@ -12,6 +12,7 @@ class Simulation:
         self.action = Actions(self)
         self.action.init_actions()
         self.render = Render(self)
+        self.count_simulation = 0
 
 
 

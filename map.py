@@ -16,3 +16,10 @@ class Map:
     def died_entity(self, entity):
         self.map_dict[entity.cell] = Empty(entity.cell)
         print(f'{entity.name} {entity.cell} помер от голода')
+
+    def count_all_health(self):
+        health = 0
+        for entity in self.map_dict.values():
+            if entity.hp:
+                health += entity.hp
+        return health

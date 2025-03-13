@@ -1,6 +1,5 @@
 import random
-
-from entity import Herbivore, Grass, Rock, Predator, Tree, Creature
+from entity import Herbivore, Grass, Rock, Predator, Tree, Empty
 
 
 class Actions:
@@ -10,6 +9,7 @@ class Actions:
 
 
     def init_actions(self):
+        self.map.map_dict = {(x, y): Empty((x, y)) for x in range(self.map.width) for y in range(self.map.height)}
         cells_fill = set(list(self.map.map_dict.keys()))
         for entity_, amount in self.entity_dict.items():
             cells = set(random.sample(list(cells_fill), amount))
