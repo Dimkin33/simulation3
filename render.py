@@ -22,9 +22,10 @@ class Render:
         # Кнопки управления
         self.button_prev = tk.Button(self.frame_button, text="Previous", command=self.on_button_prev_click)
         self.button_next = tk.Button(self.frame_button, text="Next", command=self.on_button_next_click)
-
+        self.button_exit = tk.Button(self.frame_button, text="Exit", command=self.root.destroy)
         self.button_prev.pack(side="left", padx=10)
-        self.button_next.pack(side="right", padx=10)
+        self.button_next.pack(side="left", padx=10)
+        self.button_exit.pack(side = 'right', padx = 10)
 
         # Кадр для сетки
         self.frame_grid = tk.Frame(self.root)
