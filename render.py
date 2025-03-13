@@ -15,6 +15,7 @@ class Render:
         self.width, self.height = simulation_.width, simulation_.height
         self.history = simulation_.history
         self.root.title(f"Simulation {self.width} x {self.height}")
+        self.paused = False
 
         # Кадр для кнопок
         self.frame_button = tk.Frame(self.root)
@@ -26,12 +27,14 @@ class Render:
         self.button_exit = tk.Button(self.frame_button, text="Exit", command=self.root.destroy)
         self.button_restart = tk.Button(self.frame_button, text="Restart", command=self.restart_simulation)
         self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.on_button_auto_click)
+        self.button_pause = tk.Button(self.frame_button, text="Pause", command=self.toggle_pause)
 
         self.button_prev.pack(side="left", padx=10)
         self.button_next.pack(side="left", padx=10)
-        self.button_exit.pack(side = 'right', padx = 10)
-        self.button_restart.pack(side='right', padx=10)
-        self.button_auto.pack(side="right", padx=10)
+        self.button_auto.pack(side="left", padx=10)
+        self.button_pause.pack(side="left", padx=10)
+        self.button_restart.pack(side="left", padx=10)
+        self.button_exit.pack(side = 'left', padx=10)
 
         # Кадр для сетки
         self.frame_grid = tk.Frame(self.root)
@@ -39,6 +42,10 @@ class Render:
 
         self.display_grid()
         self.update_label()
+
+    def toggle_pause(self):
+        self.paused = not self.paused
+        self.button_pause.config(text="Resume" if self.paused else "Pause")
 
     def restart_simulation(self):
         self.simulation.count_simulation = 0
@@ -106,8 +113,13 @@ class Render:
 
     def on_button_auto_click(self):
         while self.map.count_all_health():
+            if self.paused:
+                self.root.update()
+                continue  # Ждем, пока пользователь не снимет паузу
+
             self.on_button_next_click()
             self.root.update()
         print('Все померли')
+
     def render(self):
         self.root.mainloop()
