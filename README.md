@@ -17,7 +17,7 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/Dimkin33/simulation-project.git
+git clone https://github.com/Dimkin33/simulation3.git
 cd simulation-project
 ```
 
