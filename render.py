@@ -87,7 +87,7 @@ class Render:
 
     def on_button_prev_click(self):
         """Откат к предыдущему шагу"""
-        print('button prev')
+        #print('button prev')
         self.simulation.count_simulation -= 1
         if  self.simulation.count_simulation > 0:
             print(f' Simation_ step {self.simulation.count_simulation}')
@@ -103,7 +103,7 @@ class Render:
 
     def on_button_next_click(self):
         """Переход к следующему шагу"""
-        print('Button next')
+        #print('Button next')
         self.simulation.count_simulation += 1
         print(f' Simation_ step {self.simulation.count_simulation}')
         self.history.append(copy.deepcopy(self.map))  # Сохраняем копию карты
