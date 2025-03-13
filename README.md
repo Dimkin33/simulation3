@@ -29,8 +29,6 @@ cd simulation-project
 pip install -r requirements.txt
 ```
 
-(Файл `requirements.txt` нужно создать, если он отсутствует, добавив туда `tkinter` и другие зависимости.)
-
 ### 3. Запуск симуляции
 
 ```bash
