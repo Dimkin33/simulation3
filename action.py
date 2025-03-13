@@ -37,9 +37,9 @@ class Actions:
 
         for herbivore in herbivores:
             herbivore.make_move(self.map)
-
+            herbivore.hungred(self.map)
         for predator in predators:
             predator.make_move(self.map)
             predator.make_move(self.map)
-
+            predator.hungred(self.map)
 

@@ -12,3 +12,7 @@ class Map:
 
     def get_entity(self, cell):
         return self.map_dict[cell]
+
+    def died_entity(self, entity):
+        self.map_dict[entity.cell] = Empty(entity.cell)
+        print(f'{entity.name} {entity.cell} помер от голода')

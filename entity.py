@@ -80,6 +80,14 @@ class Creature(Entity):
             self.cell = path[0]  # Двигаемся на первую клетку пути
             game_map.add_entity(self)  # Добавляем себя на новую позицию
 
+    def hungred(self, game_map):
+        if self.hp == 1:
+            game_map.died_entity(self)
+        else:
+            self.hp -= 1
+
+
+
     def make_move(self, game_map):
         """Ищем цель и двигаемся к ней"""
         target_map = {Herbivore: Grass, Predator: Herbivore}
@@ -116,7 +124,7 @@ class Herbivore(Creature):
         """Травоядное съедает траву и восстанавливает здоровье"""
         grass = game_map.map_dict[target_cell]
         if isinstance(grass, Grass):
-            print(f"{self.name} съедает {grass.name} и восстанавливает {grass.hp} HP!")
+            print(f"{self.name} {self.cell} съедает {grass.name} {grass.cell} и восстанавливает {grass.hp} HP!")
             self.hp += grass.hp  # Восстанавливаем здоровье
             game_map.add_entity(Empty(target_cell))  # Убираем траву с карты
 
@@ -149,8 +157,9 @@ class Predator(Creature):
         """Атакует травоядное"""
         target = game_map.map_dict[target_cell]
         if isinstance(target, Herbivore):
-            print(f"{self.name} атакует {target.name} на {self.attack_power} урона!")
+            print(f"{self.name} {self.cell} атакует {target.name} {target.cell} на {self.attack_power} урона!")
             target.hp -= self.attack_power
+            self.hp += self.attack_power
             if target.hp <= 0:
                 print(f"{target.name} погибает!")
                 game_map.add_entity(Empty(target_cell))  # Убираем жертву с карты
