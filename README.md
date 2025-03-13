@@ -18,7 +18,7 @@
 
 ```bash
 git clone https://github.com/Dimkin33/simulation3.git
-cd simulation-project
+cd simulation3
 ```
 
 ### 2. Установка зависимостей
