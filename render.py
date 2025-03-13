@@ -47,7 +47,7 @@ class Render:
                 hp = getattr(entity, "hp", "")
 
                 cell = tk.Label(
-                    self.frame_grid, text=f"{name[0] if name[0] != 'E' else ''}{hp if hp else ''}",
+                    self.frame_grid, text=f"{name[0] if name[0] != 'E' else ''} {hp if hp else ''}",
                     borderwidth=1, relief="solid",
                     width=8, height=3, bg=color
                 )
