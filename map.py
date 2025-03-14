@@ -20,6 +20,6 @@ class Map:
     def count_all_health(self):
         health = 0
         for entity in self.map_dict.values():
-            if entity.hp:
+            if entity.hp and entity.name in ('Herbivore', 'Predator'):
                 health += entity.hp
         return health

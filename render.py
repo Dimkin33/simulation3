@@ -16,7 +16,7 @@ class Render:
         self.history = simulation_.history
         self.root.title(f"Simulation {self.width} x {self.height}")
         self.paused = False
-
+        self.auto_running = False  # Добавляем атрибут
         # Кадр для кнопок
         self.frame_button = tk.Frame(self.root)
         self.frame_button.pack(side="bottom", pady=10)
@@ -27,12 +27,14 @@ class Render:
         self.button_exit = tk.Button(self.frame_button, text="Exit", command=self.root.destroy)
         self.button_restart = tk.Button(self.frame_button, text="Restart", command=self.restart_simulation)
         self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.on_button_auto_click)
-        self.button_pause = tk.Button(self.frame_button, text="Pause", command=self.toggle_pause)
 
+        self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.toggle_auto_pause)
+
+        self.button_auto.pack(side="right", padx=10)
         self.button_prev.pack(side="left", padx=10)
         self.button_next.pack(side="left", padx=10)
         self.button_auto.pack(side="left", padx=10)
-        self.button_pause.pack(side="left", padx=10)
+
         self.button_restart.pack(side="left", padx=10)
         self.button_exit.pack(side = 'left', padx=10)
 
@@ -43,15 +45,23 @@ class Render:
         self.display_grid()
         self.update_label()
 
-    def toggle_pause(self):
-        self.paused = not self.paused
-        self.button_pause.config(text="Resume" if self.paused else "Pause")
+
 
     def restart_simulation(self):
+        self.paused = False
         self.simulation.count_simulation = 0
         self.simulation.history.clear()
         self.action.init_actions()  # Пересоздаём сущности
         self.display_grid()  # Обновляем интерфейс
+        self.simulation.run()
+
+    def toggle_auto_pause(self):
+        self.auto_running = not self.auto_running
+        self.button_auto.config(text="Pause" if self.auto_running else "Auto")
+
+        while self.auto_running and self.map.count_all_health():
+            self.on_button_next_click()
+            self.root.update()
 
     def display_grid(self):
         """Отображение сетки"""
