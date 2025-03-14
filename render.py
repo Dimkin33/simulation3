@@ -26,8 +26,6 @@ class Render:
         self.button_next = tk.Button(self.frame_button, text="Next", command=self.on_button_next_click)
         self.button_exit = tk.Button(self.frame_button, text="Exit", command=self.root.destroy)
         self.button_restart = tk.Button(self.frame_button, text="Restart", command=self.restart_simulation)
-        self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.on_button_auto_click)
-
         self.button_auto = tk.Button(self.frame_button, text="Auto", command=self.toggle_auto_pause)
 
         self.button_auto.pack(side="right", padx=10)
